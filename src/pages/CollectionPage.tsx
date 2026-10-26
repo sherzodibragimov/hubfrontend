@@ -43,6 +43,7 @@ export default function CollectionPage() {
   if (!c) return <div className="alert error">{(error as Error)?.message ?? 'Topilmadi'}</div>;
   const dirty = f.name !== c.name || f.overview !== c.overview || f.is_published !== c.is_published || f.auto_sync !== c.auto_sync;
   const manual = c.kind === 'manual';
+  const tmdbLink = c.tmdb_id && !['manual', 'country'].includes(c.kind);
   const inColl = new Set(c.movies.map((m) => m.movie_id));
   const move = (i: number, dir: -1 | 1) => {
     const ids = c.movies.map((m) => m.movie_id);
@@ -63,7 +64,7 @@ export default function CollectionPage() {
           <div className="pub-row">
             <span className={`kind-tag static k-${c.kind}`}>{KIND_LABEL[c.kind]}</span>
             {c.name_original && c.name_original !== c.name && <span className="muted small">{c.name_original}</span>}
-            {c.tmdb_id && c.kind !== 'manual' && <a className="small" target="_blank" rel="noreferrer"
+            {tmdbLink && <a className="small" target="_blank" rel="noreferrer"
               href={`https://www.themoviedb.org/${c.kind === 'tmdb' ? 'collection' : c.kind}/${c.tmdb_id}`}>TMDB ↗</a>}
           </div>
           <p className="muted small">{c.movie_count} ta kino{c.missing_count ? ` · TMDB da yana ${c.missing_count} ta qism bor` : ''}</p>
@@ -80,7 +81,7 @@ export default function CollectionPage() {
       <div className="edit-grid">
         <section className="card block">
           <div className="block-head">
-            <div><h3>Kinolar</h3><p className="muted small">{manual ? 'Tartibni ↑ ↓ bilan o‘zgartiring' : c.kind === 'tmdb' ? 'TMDB dagi chiqish tartibida' : 'Chiqish sanasi bo‘yicha'}</p></div>
+            <div><h3>Kinolar</h3><p className="muted small">{manual ? 'Tartibni ↑ ↓ bilan o‘zgartiring' : c.kind === 'tmdb' ? 'TMDB dagi chiqish tartibida' : 'Eng yangilari birinchi'}</p></div>
           </div>
           <div className="cm-list">
             {c.movies.map((m, i) => (

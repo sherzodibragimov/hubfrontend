@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useCategories, useDeleteMovie, useImagesFromUrls, useMovie, useSaveMovie, useSiteAction, useSites } from '../api/hooks';
 import type { ImageKind, Movie, MovieFields, SiteResult, TmdbResult } from '../api/types';
 import CastTab from '../components/CastTab';
+import TmdbTab from '../components/TmdbTab';
 import EpisodesTab from '../components/EpisodesTab';
 import HistoryVideo from '../components/HistoryVideo';
 import ImagesTab from '../components/ImagesTab';
@@ -60,7 +61,7 @@ const GROUPS: { title: string; fields: Field[] }[] = [
   ] },
 ];
 
-const EXTRA_TABS = ['Qismlar', 'Aktyorlar', 'Rasmlar', 'Kategoriyalar'];
+const EXTRA_TABS = ['Qismlar', 'Aktyorlar', 'TMDB', 'Rasmlar', 'Kategoriyalar'];
 
 const toForm = (m: Movie): MovieFields => {
   const f = { ...EMPTY };
@@ -201,6 +202,7 @@ export default function MovieEditPage() {
             )).concat(GROUPS[tab].title === 'Video' ? [<HistoryVideo key="history" movie={movie} />] : [])
             : EXTRA_TABS[tab - GROUPS.length] === 'Qismlar' ? <EpisodesTab movie={movie} />
             : EXTRA_TABS[tab - GROUPS.length] === 'Aktyorlar' ? <CastTab movie={movie} />
+            : EXTRA_TABS[tab - GROUPS.length] === 'TMDB' ? <TmdbTab movie={movie} />
             : EXTRA_TABS[tab - GROUPS.length] === 'Rasmlar' ? <ImagesTab movie={movie} pending={pendingImages} /> : (
               <div className="wide cat-list">
                 {cats?.map((c) => (

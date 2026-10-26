@@ -62,6 +62,10 @@ export default function MoviesPage() {
         <select value={params.approve ?? ''} onChange={(e) => set('approve', e.target.value)}>
           <option value="">Holat</option><option value="true">Tasdiqlangan</option><option value="false">Tasdiqlanmagan</option>
         </select>
+        <select value={params.age ?? ''} onChange={(e) => set('age', e.target.value)}>
+          <option value="">Yosh</option><option value="kids">Bolalar uchun (0+, 6+)</option>
+          <option value="family">Oilaviy (12+ gacha)</option><option value="adult">Faqat kattalar (18+)</option>
+        </select>
         <select value={params.category_id ?? ''} onChange={(e) => set('category_id', e.target.value)}>
           <option value="">Kategoriya</option>
           {cats?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}

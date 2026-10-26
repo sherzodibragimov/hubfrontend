@@ -11,9 +11,10 @@ const NAV: { to: string; label: string; icon: IconName; end?: boolean }[] = [
   { to: '/', label: 'Bosh sahifa', icon: 'home', end: true },
   { to: '/movies', label: 'Kinolar', icon: 'film' },
   { to: '/collections', label: 'To‘plamlar', icon: 'stack' },
+  { to: '/radar', label: 'Radar', icon: 'activity' },
   { to: '/sources', label: 'Manbalar', icon: 'layers' },
   { to: '/autofill', label: 'Autofill', icon: 'sparkles' },
-  { to: '/system', label: 'Tizim', icon: 'activity' },
+  { to: '/system', label: 'Tizim', icon: 'bell' },
   { to: '/settings', label: 'Sozlamalar', icon: 'settings' },
 ];
 

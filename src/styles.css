@@ -499,3 +499,29 @@ a.kpi:hover { transform: translateY(-2px); border-color: var(--border-strong); c
 .form-grid.single { grid-template-columns: 1fr; }
 .wide-modal { width: min(560px, 100%); display: flex; flex-direction: column; gap: 12px; }
 @media (max-width: 600px) { .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .coll-hero-poster { width: 80px; } .coll-hero-poster img { width: 80px; } }
+
+/* ---------- TMDB bo‘limi, Radar ---------- */
+.info-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.age-badge { display: inline-block; padding: 1px 9px; border-radius: 6px; border: 1.5px solid var(--text); font-weight: 800; font-size: 12px; }
+.trailers { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 6px; }
+.trailer { position: relative; display: flex; flex-direction: column; gap: 4px; color: var(--text); }
+.trailer img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; }
+.tr-lang { position: absolute; top: 6px; left: 6px; padding: 1px 7px; border-radius: 6px; background: #000000b0; color: #fff; font-size: 11px; font-weight: 700; }
+.tr-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.poster-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 8px; }
+.pr-item { display: flex; flex-direction: column; gap: 3px; color: var(--text); font-size: 13px; font-weight: 600; }
+.pr-item:hover { color: var(--primary); }
+.pr-item img, .pr-item .hit-ph { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 8px; background: var(--surface-3); }
+.pr-item.dim img { filter: grayscale(.5); opacity: .85; }
+.radar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; transition: opacity .15s; }
+.radar-grid.fetching { opacity: .6; }
+.radar-card { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+.radar-poster { position: relative; aspect-ratio: 2 / 3; background: var(--surface-2); display: grid; place-items: center; color: var(--faint); }
+.radar-poster img { width: 100%; height: 100%; object-fit: cover; }
+.radar-rank { position: absolute; top: 8px; left: 8px; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 8px; display: grid; place-items: center; background: var(--grad); color: var(--primary-text); font-weight: 800; font-size: 13px; }
+.radar-rating { position: absolute; bottom: 8px; right: 8px; padding: 1px 7px; border-radius: 6px; background: #000000b0; color: var(--amber); font-weight: 800; font-size: 12px; }
+.radar-body { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px 12px; }
+.radar-body .badge { align-self: flex-start; margin-top: 4px; }
+@media (max-width: 900px) { .info-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .radar-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
