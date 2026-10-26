@@ -7,6 +7,6 @@ RUN npm run build
 
 FROM nginx:1.27-alpine
 # nginx image templates/ ichidagi faylni envsubst orqali conf.d ga yozadi
-ENV API_UPSTREAM=backend:8000 NGINX_ENVSUBST_FILTER=^API_
+ENV API_UPSTREAM=backend:8000 DJANGO_UPSTREAM=web:8000 NGINX_ENVSUBST_FILTER=_UPSTREAM$
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist /usr/share/nginx/html
