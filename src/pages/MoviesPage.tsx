@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useBulkSync, useCategories, useMovies, useSites } from '../api/hooks';
+import { useAutofillQueue } from '../api/admin';
+import ActionMessages from '../components/ActionMessages';
 import SitePicker from '../components/SitePicker';
 import { useDebounce } from '../hooks/useDebounce';
 
@@ -15,6 +17,7 @@ export default function MoviesPage() {
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [bulkSites, setBulkSites] = useState<number[]>([]);
   const bulk = useBulkSync();
+  const queue = useAutofillQueue();
 
   const set = (key: string, value: string) => {
     const next = new URLSearchParams(sp);
@@ -84,10 +87,13 @@ export default function MoviesPage() {
           <button className="btn primary sm" disabled={bulk.isPending || selected.size > 100} onClick={runBulk}>
             {bulk.isPending ? 'Yuborilmoqda…' : 'Saytlarga yuborish'}
           </button>
+          <button className="btn ghost sm" disabled={queue.isPending} onClick={() => queue.mutate([...selected])}>Autofill navbatiga</button>
           <button className="btn ghost sm" onClick={() => setSelected(new Set())}>Bekor</button>
           {selected.size > 100 && <span className="text-error small">Bir martada ko‘pi bilan 100 ta</span>}
         </div>
       )}
+      {queue.data && <ActionMessages messages={queue.data.messages} onClose={() => queue.reset()} />}
+      {queue.error && <div className="alert error">{(queue.error as Error).message}</div>}
       {bulk.error && <div className="alert error">{(bulk.error as Error).message}</div>}
       {bulk.data && (
         <div className={`alert ${bulkFailed.length ? 'error' : 'ok'}`}>

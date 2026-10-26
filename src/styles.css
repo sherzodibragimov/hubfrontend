@@ -71,6 +71,7 @@ tbody tr:hover { background: var(--surface-2); }
 .badge.error { background: color-mix(in srgb, var(--danger) 15%, transparent); color: var(--danger); }
 .badge.deleted { background: var(--surface-2); color: var(--muted); }
 .text-error { color: var(--danger); }
+.text-warn { color: var(--warn); }
 .pager { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 14px; }
 
 .alert { padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; }

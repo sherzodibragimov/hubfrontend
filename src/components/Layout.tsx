@@ -22,7 +22,7 @@ export default function Layout() {
           <NavLink to="/sources">Manbalar</NavLink>
           <NavLink to="/autofill">Autofill</NavLink>
           <NavLink to="/system">Tizim {unreadErrors > 0 && <span className="nav-badge">{unreadErrors}</span>}</NavLink>
-          <a href={import.meta.env.VITE_DJANGO_ADMIN_URL ?? "/admin/"} target="_blank" rel="noreferrer">Django admin ↗</a>
+          <NavLink to="/settings">Sozlamalar</NavLink>
         </nav>
         <div className="sidebar-foot">
           <span>{me?.username}</span>

@@ -34,7 +34,7 @@ export interface Stats {
 export interface User { id: number; username: string; is_superuser: boolean }
 export interface SiteResult { site_id: number; site_code: string; ok: boolean; message: string; dle_post_id: number | null }
 export interface MovieAction { movie_id: number; results: SiteResult[]; movie: Movie | null }
-export interface DeleteResult { deleted: boolean; images_removed: number; results: SiteResult[] }
+export interface DeleteResult { deleted: boolean; images_removed: number; results: SiteResult[]; disk?: string[] }
 export type ImageKind = 'poster' | 'poster-long' | 'cadre1' | 'cadre2' | 'cadre3';
 export interface TmdbResult {
   ok: boolean; tmdb_id: number; media_type: 'movie' | 'tv';
