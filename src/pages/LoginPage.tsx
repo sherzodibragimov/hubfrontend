@@ -96,14 +96,7 @@ export default function LoginPage() {
         <div className="orb o1" /><div className="orb o2" /><div className="orb o3" />
         <div className="grid-lines" />
         <div className="auth-art-inner">
-          <div className="logo-mark lg"><Icon name="tv" size={26} /></div>
-          <h2>Kontent markazi.<br /><em>Bir joyda.</em></h2>
-          <p>Kinolar, seriallar va manbalarni boshqaring, saytlarga bir zumda nashr qiling.</p>
-          <ul className="auth-feats">
-            <li><Icon name="layers" /> Manbalardan avtomatik yig‘ish</li>
-            <li><Icon name="sparkles" /> AI autofill va TMDB</li>
-            <li><Icon name="globe" /> Ko‘p saytga sinxron nashr</li>
-          </ul>
+          <div className="logo-mark lg"><Icon name="tv" size={44} /></div>
         </div>
         <div className="reel">{Array.from({ length: 14 }, (_, i) => <span key={i} />)}</div>
       </section>
@@ -112,7 +105,7 @@ export default function LoginPage() {
         <form className="auth-card" onSubmit={submit} noValidate={false}>
           <div className="auth-head">
             <div className="logo-mark"><Icon name="tv" size={20} /></div>
-            <div><h1>OneTV <span>Hub</span></h1><p className="muted">Boshqaruv paneliga kirish</p></div>
+            <div><h1>OneTV <span>Hub</span></h1><p className="muted">Tizimga kirish</p></div>
           </div>
 
           <label className="field">
@@ -147,7 +140,7 @@ export default function LoginPage() {
           <button className="btn primary lg block" disabled={busy || locked || guard === 'error'}>
             {busy ? 'Kirilmoqda…' : locked ? `Kuting ${mmss}` : <>Kirish <Icon name="arrowRight" /></>}
           </button>
-          <p className="auth-foot muted small"><Icon name="lock" size={12} /> Himoyalangan ulanish · 5 ta xato urinishdan keyin vaqtincha bloklanadi</p>
+          <p className="auth-foot muted small"><Icon name="lock" size={12} /> Himoyalangan ulanish</p>
         </form>
       </section>
     </div>
