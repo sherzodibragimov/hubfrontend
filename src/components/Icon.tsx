@@ -1,5 +1,6 @@
 /** Chiziqli ikonkalar (24×24, stroke = currentColor). */
 const paths: Record<string, string> = {
+  stack: 'M4 7h16v13H4zM6 4h12M8 1.5h8',
   home: 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
   film: 'M4 4h16v16H4zM8 4v16M16 4v16M4 8h4M4 12h4M4 16h4M16 8h4M16 12h4M16 16h4',
   layers: 'm12 3 9 5-9 5-9-5zM3 13l9 5 9-5M3 17.5l9 5 9-5',
