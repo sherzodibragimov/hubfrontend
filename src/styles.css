@@ -420,3 +420,35 @@ a.kpi:hover { transform: translateY(-2px); border-color: var(--border-strong); c
   .tl-item { grid-template-columns: 18px 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ---------- Aktyorlar ---------- */
+.faint { color: var(--faint); }
+.cast-group { margin-bottom: 22px; }
+.cast-group h4 { margin: 0 0 12px; font-size: 15px; }
+.cast-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.cast-card { position: relative; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--surface); cursor: pointer; transition: transform .18s, border-color .18s, box-shadow .18s; }
+.cast-card:hover { transform: translateY(-3px); border-color: var(--border-strong); box-shadow: var(--shadow); }
+.cast-photo { position: relative; aspect-ratio: 2 / 3; background: var(--surface-2); display: grid; place-items: center; color: var(--faint); }
+.cast-photo img { width: 100%; height: 100%; object-fit: cover; }
+.cast-flag { position: absolute; top: 8px; left: 8px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--warn); color: #000; font-weight: 800; font-size: 12px; }
+.cast-text { display: flex; flex-direction: column; gap: 1px; padding: 10px 12px 12px; min-width: 0; }
+.cast-text b, .cast-text span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cast-remove { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: #000000a0; color: #fff; font-size: 16px; line-height: 1; cursor: pointer; opacity: 0; transition: opacity .15s; }
+.cast-card:hover .cast-remove { opacity: 1; }
+.person-top { display: grid; grid-template-columns: 150px 1fr; gap: 18px; margin-bottom: 8px; }
+.person-photo { display: flex; flex-direction: column; gap: 8px; }
+.person-photo img, .person-photo > svg { width: 150px; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 12px; background: var(--surface-2); }
+.person-photo > svg { padding: 50px; color: var(--faint); }
+.form-grid.flush { padding: 8px 0 0; }
+
+/* ---------- Qism tafsilotlari ---------- */
+.ep-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.ep-rating { display: inline-flex; align-items: center; gap: 3px; color: var(--amber); font-weight: 700; }
+.ep-credits { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 13px; }
+.ep-credits dt { color: var(--muted); }
+.ep-credits dd { margin: 0; }
+.guests { display: flex; gap: 10px; flex-wrap: wrap; }
+.guest { display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); font-size: 12px; }
+.guest img, .guest .g-ph { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; background: var(--surface-3); }
+.season-progress { display: flex; flex-direction: column; gap: 6px; }
+@media (max-width: 600px) { .person-top { grid-template-columns: 1fr; } .cast-grid { grid-template-columns: repeat(2, 1fr); } }

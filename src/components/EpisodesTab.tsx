@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import {
-  useDeleteEpisode, useDeleteSeason, useEpisodes, useEpisodesFromLinks, useImportEpisodes, useRegenerateSeo,
+  fetchTmdbSeasons, useDeleteEpisode, useDeleteSeason, useEpisodes, useEpisodesFromLinks, useImportEpisodes, useRegenerateSeo,
   useSaveEpisode, useSaveSeason, useUploadStill,
 } from '../api/episodes';
-import type { Episode, Movie, SeasonInfo } from '../api/types';
+import type { Episode, EpisodesData, Movie, SeasonInfo } from '../api/types';
+import { api } from '../api/client';
+import Icon from './Icon';
 
 function Counter({ value, max, ideal }: { value: string; max: number; ideal: [number, number] }) {
   const n = value.length;
@@ -30,9 +33,12 @@ function EpisodeRow({ movieId, ep }: { movieId: number; ep: Episode }) {
         <div className="ep-main">
           <strong>{ep.number}-qism{ep.title ? `: ${ep.title}` : ''}</strong>
           <span className="muted small ep-ov">{ep.overview || 'Tavsif yo‘q'}</span>
-          <span className="small">
+          <span className="small ep-meta">
             {ep.video_url ? <span className="text-ok">● video</span> : <span className="text-error">● video yo‘q</span>}
-            {ep.air_date && <span className="muted"> · {ep.air_date}</span>}{ep.runtime ? <span className="muted"> · {ep.runtime} daq</span> : null}
+            {ep.air_date && <span className="muted">{ep.air_date}</span>}
+            {ep.runtime ? <span className="muted"><Icon name="clock" size={12} /> {ep.runtime} daq</span> : null}
+            {ep.vote_average ? <span className="ep-rating">★ {ep.vote_average.toFixed(1)}</span> : null}
+            {ep.guest_stars?.length ? <span className="muted">{ep.guest_stars.length} mehmon aktyor</span> : null}
           </span>
         </div>
         <span className="muted">{open ? '▴' : '▾'}</span>
@@ -43,7 +49,22 @@ function EpisodeRow({ movieId, ep }: { movieId: number; ep: Episode }) {
             placeholder={ep.title_original || 'masalan: Yangi boshlanish'} /></label>
           <label><span>Video URL</span><input value={f.video_url} onChange={(e) => setF({ ...f, video_url: e.target.value })} /></label>
           <label className="wide"><span>Tavsif (o‘zbekcha)</span><textarea rows={4} value={f.overview} onChange={(e) => setF({ ...f, overview: e.target.value })} /></label>
-          {ep.overview_original && <details className="wide small muted"><summary>Asl tavsif</summary>{ep.overview_original}</details>}
+          {ep.overview_original && <details className="wide small muted"><summary>Asl tavsif{ep.title_original ? ` · ${ep.title_original}` : ''}</summary>{ep.overview_original}</details>}
+          {(ep.directors || ep.writers) && (
+            <dl className="wide ep-credits">
+              {ep.directors && <><dt>Rejissyor</dt><dd>{ep.directors}</dd></>}
+              {ep.writers && <><dt>Ssenariy</dt><dd>{ep.writers}</dd></>}
+            </dl>
+          )}
+          {ep.guest_stars?.length ? (
+            <div className="wide"><div className="field-label" style={{ marginBottom: 6 }}>Mehmon aktyorlar</div>
+              <div className="guests">{ep.guest_stars.map((g) => (
+                <span key={`${g.tmdb_id}-${g.character}`} className="guest">
+                  {g.photo_url ? <img src={g.photo_url} alt="" loading="lazy" /> : <span className="g-ph" />}
+                  <b>{g.name}</b>{g.character && <span className="muted">— {g.character}</span>}
+                </span>))}</div>
+            </div>
+          ) : null}
           <label className="wide"><span>SEO title <Counter value={f.meta_title} max={255} ideal={[30, 65]} /></span>
             <input value={f.meta_title} onChange={(e) => setF({ ...f, meta_title: e.target.value })} /></label>
           <label className="wide"><span>SEO description <Counter value={f.meta_descr} max={300} ideal={[70, 160]} /></span>
@@ -111,17 +132,40 @@ function Inner({ movie }: { movie: Movie }) {
   const canTmdb = /^\d+$/.test(movie.tmdb_id) && movie.tmdb_type !== 'movie';
 
   const numbers = [...new Set([...(data?.seasons.map((s) => s.number) ?? []), ...(data?.episodes.map((e) => e.season) ?? [])])].sort((a, b) => a - b);
+  const qc = useQueryClient();
+  const [all, setAll] = useState<{ done: number; total: number; current: number; errors: string[] } | null>(null);
   const err = imp.error || links.error;
+
+  // Har bir fasl alohida so‘rov (Cloudflare 100 s chegarasi) — ketma-ket, jarayon ko‘rsatkichi bilan
+  async function importAll() {
+    const seasons = await fetchTmdbSeasons(movie.id).catch((e: Error) => { setAll({ done: 0, total: 0, current: 0, errors: [e.message] }); return null; });
+    if (!seasons) return;
+    const errors: string[] = [];
+    for (const [i, s] of seasons.entries()) {
+      setAll({ done: i, total: seasons.length, current: s.number, errors: [...errors] });
+      try {
+        const d = await api<EpisodesData>(`/movies/${movie.id}/episodes/tmdb`, { method: 'POST', body: JSON.stringify({ season: s.number, ...opts }) });
+        qc.setQueryData(['episodes', movie.id], d);
+        errors.push(...(d.warnings ?? []).map((w) => `${s.number}-fasl: ${w}`));
+      } catch (e) { errors.push(`${s.number}-fasl: ${(e as Error).message}`); }
+    }
+    setAll({ done: seasons.length, total: seasons.length, current: 0, errors });
+  }
+  const running = !!all && all.done < all.total;
 
   return (
     <div className="wide episodes">
       <div className="card-inset">
         <div className="panel-row">
           <label className="inline">Fasl <input type="number" min={1} value={season} onChange={(e) => setSeason(Math.max(1, Number(e.target.value)))} /></label>
-          <button type="button" className="btn primary sm" disabled={!canTmdb || imp.isPending}
+          <button type="button" className="btn primary sm" disabled={!canTmdb || imp.isPending || running}
             title={canTmdb ? '' : 'Avval TMDB dan serialni oling (TMDB ID + Serial turi)'}
             onClick={() => imp.mutate({ season, ...opts })}>
-            {imp.isPending ? 'TMDB + tarjima… (20–60 s)' : 'TMDB dan qismlarni olish'}
+            {imp.isPending ? 'TMDB + tarjima… (20–60 s)' : 'Shu faslni olish'}
+          </button>
+          <button type="button" className="btn primary sm" disabled={!canTmdb || running || imp.isPending} onClick={importAll}
+            title="TMDB dagi barcha fasllar va qismlarni birma-bir oladi">
+            {running ? `${all!.current}-fasl… (${all!.done}/${all!.total})` : 'Barcha fasllarni olish'}
           </button>
           <button type="button" className="btn ghost sm" disabled={!linkCount || links.isPending} onClick={() => links.mutate(season)}>
             Video havolalardan yaratish ({linkCount})
@@ -133,6 +177,13 @@ function Inner({ movie }: { movie: Movie }) {
             <label key={k} className="check"><input type="checkbox" checked={opts[k]} onChange={(e) => setOpts({ ...opts, [k]: e.target.checked })} />{l}</label>
           ))}
         </div>
+        {all && (
+          <div className="season-progress">
+            {all.total > 0 && <div className="bar"><div style={{ width: `${(all.done / all.total) * 100}%` }} /></div>}
+            {!running && all.total > 0 && <div className="text-ok small">Tayyor: {all.total} ta fasl olindi</div>}
+            {all.errors.map((w) => <div key={w} className="alert warn small">{w}</div>)}
+          </div>
+        )}
         {err && <div className="text-error small">{(err as Error).message}</div>}
         {imp.isSuccess && <div className="text-ok small">Tayyor: {imp.data.episodes.filter((e) => e.season === season).length} ta qism yangilandi</div>}
         {imp.data?.warnings?.map((w) => <div key={w} className="alert warn small">{w}</div>)}

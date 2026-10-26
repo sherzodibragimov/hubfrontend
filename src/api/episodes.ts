@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, upload } from './client';
-import type { Episode, EpisodesData, SeasonInfo } from './types';
+import type { Episode, EpisodesData, SeasonInfo, TmdbSeasonRow } from './types';
 
 const key = (movieId: number) => ['episodes', movieId];
 const post = <T>(path: string, body: unknown) => api<T>(path, { method: 'POST', body: JSON.stringify(body) });
@@ -76,3 +76,5 @@ export function useDeleteSeason(movieId: number) {
     onSuccess: () => qc.invalidateQueries({ queryKey: key(movieId) }),
   });
 }
+
+export const fetchTmdbSeasons = (movieId: number) => api<TmdbSeasonRow[]>(`/movies/${movieId}/episodes/tmdb-seasons`);

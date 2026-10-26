@@ -70,5 +70,14 @@ export interface Episode {
   id: number; season: number; number: number; title: string; title_original: string; overview: string;
   overview_original: string; air_date: string | null; runtime: number | null; still_url: string;
   still_source_url: string; video_url: string; meta_title: string; meta_descr: string;
+  vote_average: number | null; directors: string; writers: string;
+  guest_stars: { tmdb_id: number; name: string; character: string; photo_url: string }[];
 }
+export interface TmdbSeasonRow { number: number; name: string; episode_count: number; air_date: string; poster: string }
+export interface Person {
+  id: number; tmdb_id: number | null; imdb_id: string; name: string; name_original: string; biography: string;
+  biography_original: string; birthday: string | null; deathday: string | null; place_of_birth: string;
+  place_of_birth_original: string; known_for: string; gender: number; photo_url: string;
+}
+export interface CastRow { id: number; role: 'actor' | 'director' | 'creator' | 'writer'; character: string; character_uz: string; episode_count: number | null; ord: number; person: Person }
 export interface EpisodesData { seasons: SeasonInfo[]; episodes: Episode[]; warnings?: string[] }
