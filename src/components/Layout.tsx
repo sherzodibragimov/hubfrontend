@@ -12,6 +12,7 @@ const NAV: { to: string; label: string; icon: IconName; end?: boolean }[] = [
   { to: '/movies', label: 'Kinolar', icon: 'film' },
   { to: '/collections', label: 'To‘plamlar', icon: 'stack' },
   { to: '/radar', label: 'Radar', icon: 'activity' },
+  { to: '/matching', label: 'TMDB moslash', icon: 'shieldCheck' },
   { to: '/sources', label: 'Manbalar', icon: 'layers' },
   { to: '/autofill', label: 'Autofill', icon: 'sparkles' },
   { to: '/system', label: 'Tizim', icon: 'bell' },

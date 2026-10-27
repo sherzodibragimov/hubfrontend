@@ -525,3 +525,14 @@ a.kpi:hover { transform: translateY(-2px); border-color: var(--border-strong); c
 .radar-body .badge { align-self: flex-start; margin-top: 4px; }
 @media (max-width: 900px) { .info-grid { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .radar-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+
+/* ---------- TMDB moslash ---------- */
+.match-list { display: flex; flex-direction: column; gap: 12px; }
+.match-row { display: grid; grid-template-columns: minmax(260px, 1fr) 2fr; gap: 18px; padding: 14px; }
+.match-ours { display: flex; gap: 12px; }
+.match-ours > img, .match-ours > .hit-ph { width: 92px; height: 138px; object-fit: cover; border-radius: 8px; flex: none; }
+.match-cands { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+.match-cand { display: flex; flex-direction: column; gap: 4px; padding: 6px; border-radius: 10px; border: 1px solid var(--border); }
+.match-cand.on { border-color: var(--primary); background: var(--primary-soft); }
+.match-cand img, .match-cand .hit-ph { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 6px; }
+@media (max-width: 900px) { .match-row { grid-template-columns: 1fr; } }
