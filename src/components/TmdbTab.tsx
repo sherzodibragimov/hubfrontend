@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useRefreshTags, useSimilar, useTmdbInfo } from '../api/collections';
 import type { Movie } from '../api/types';
 import Icon from './Icon';
+import PosterUzBlock from './PosterUzBlock';
 
 const LANG: Record<string, string> = { ru: 'ruscha', en: 'inglizcha', uz: 'o‘zbekcha', tr: 'turkcha', ko: 'koreyscha', hi: 'hindcha', ja: 'yaponcha', zh: 'xitoycha' };
 const COUNTRY: Record<string, string> = {
@@ -59,6 +60,8 @@ function Inner({ movie }: { movie: Movie }) {
           </div>
         </div>
       ) : <div className="muted small">TMDB ma’lumoti hali olinmagan.</div>}
+
+      {canTmdb && <PosterUzBlock movieId={movie.id} />}
 
       {sim && (sim.in_db.length > 0 || sim.missing.length > 0) && (
         <>

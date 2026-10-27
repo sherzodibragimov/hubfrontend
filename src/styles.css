@@ -536,3 +536,22 @@ a.kpi:hover { transform: translateY(-2px); border-color: var(--border-strong); c
 .match-cand.on { border-color: var(--primary); background: var(--primary-soft); }
 .match-cand img, .match-cand .hit-ph { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 6px; }
 @media (max-width: 900px) { .match-row { grid-template-columns: 1fr; } }
+
+/* ---------- O‘zbekcha poster ---------- */
+.puz-grid { display: grid; grid-template-columns: 180px 180px 1fr; gap: 16px; align-items: start; }
+.puz-grid figure { margin: 0; }
+.puz-grid figcaption { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.puz-grid img, .puz-grid .hit-ph { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 10px; background: var(--surface-3); }
+.puz-empty { aspect-ratio: 2 / 3; display: grid; place-items: center; text-align: center; padding: 12px; border: 1px dashed var(--border-strong); border-radius: 10px; }
+.puz-side { display: flex; flex-direction: column; gap: 8px; }
+.puz-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; transition: opacity .15s; }
+.puz-gallery.fetching { opacity: .6; }
+.puz-card { border: 2px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); cursor: pointer; transition: border-color .15s; }
+.puz-card.on { border-color: var(--primary); }
+.puz-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--surface-3); }
+.puz-pair img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; display: block; }
+.puz-old { filter: saturate(.6) brightness(.8); }
+.puz-meta { display: flex; align-items: center; gap: 8px; padding: 8px 10px; min-width: 0; }
+.puz-meta .title-link { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.puz-meta input { width: 16px; }
+@media (max-width: 900px) { .puz-grid { grid-template-columns: 1fr 1fr; } .puz-side { grid-column: 1 / -1; } }
