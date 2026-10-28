@@ -8,6 +8,7 @@ import EpisodesTab from '../components/EpisodesTab';
 import HistoryVideo from '../components/HistoryVideo';
 import ImagesTab from '../components/ImagesTab';
 import TmdbPanel from '../components/TmdbPanel';
+import GeoSelect from '../components/GeoSelect';
 import DeleteDialog from '../components/DeleteDialog';
 import SitePicker from '../components/SitePicker';
 import SiteResults from '../components/SiteResults';
@@ -19,7 +20,7 @@ const EMPTY: MovieFields = {
   time: '', quality: '', translator: '', tmdb_id: '', tmdb_type: '', last_season: '', last_episode: '',
   all_season: '', all_episode: '', num_episodes: '', serial_status: false, serial_life: '', trailer: '',
   media_player: '', video_links: '', mover_iframe: '', okru: '', lumex: '', approve: true, allow_main: true,
-  published_at: null, author: '', category_ids: [],
+  published_at: null, author: '', category_ids: [], geo_allow: [],
 };
 
 type Field = { key: keyof MovieFields; label: string; type?: 'text' | 'textarea' | 'bool' | 'datetime' | 'select'; options?: [string, string][]; wide?: boolean };
@@ -61,11 +62,12 @@ const GROUPS: { title: string; fields: Field[] }[] = [
   ] },
 ];
 
-const EXTRA_TABS = ['Qismlar', 'Aktyorlar', 'TMDB', 'Rasmlar', 'Kategoriyalar'];
+const EXTRA_TABS = ['Qismlar', 'Aktyorlar', 'TMDB', 'Rasmlar', 'Davlatlar (DMCA)', 'Kategoriyalar'];
 
 const toForm = (m: Movie): MovieFields => {
   const f = { ...EMPTY };
   (Object.keys(EMPTY) as (keyof MovieFields)[]).forEach((k) => { (f as Record<string, unknown>)[k] = m[k]; });
+  f.geo_allow = String(m.xfields_extra?.country ?? '').split(',').map((c) => c.trim().toUpperCase()).filter((c) => /^[A-Z]{3}$/.test(c));
   return f;
 };
 const toLocalInput = (iso: string | null) => (iso ? new Date(new Date(iso).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16) : '');
@@ -206,7 +208,8 @@ export default function MovieEditPage() {
             : EXTRA_TABS[tab - GROUPS.length] === 'Qismlar' ? <EpisodesTab movie={movie} />
             : EXTRA_TABS[tab - GROUPS.length] === 'Aktyorlar' ? <CastTab movie={movie} />
             : EXTRA_TABS[tab - GROUPS.length] === 'TMDB' ? <TmdbTab movie={movie} />
-            : EXTRA_TABS[tab - GROUPS.length] === 'Rasmlar' ? <ImagesTab movie={movie} pending={pendingImages} /> : (
+            : EXTRA_TABS[tab - GROUPS.length] === 'Rasmlar' ? <ImagesTab movie={movie} pending={pendingImages} />
+            : EXTRA_TABS[tab - GROUPS.length] === 'Davlatlar (DMCA)' ? <GeoSelect value={form.geo_allow ?? []} onChange={(v) => upd('geo_allow', v)} /> : (
               <div className="wide cat-list">
                 {cats?.map((c) => (
                   <label key={c.id} className="check">

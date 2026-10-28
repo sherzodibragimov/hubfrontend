@@ -555,3 +555,11 @@ a.kpi:hover { transform: translateY(-2px); border-color: var(--border-strong); c
 .puz-meta .title-link { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .puz-meta input { width: 16px; }
 @media (max-width: 900px) { .puz-grid { grid-template-columns: 1fr 1fr; } .puz-side { grid-column: 1 / -1; } }
+
+/* Davlatlar (DMCA) */
+.geo-select { display: flex; flex-direction: column; gap: 10px; }
+.geo-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.geo-chips .chip { cursor: pointer; margin: 0; padding: 4px 11px; font-size: 13px; color: inherit; }
+.geo-chips .chip.on { background: var(--primary); border-color: var(--primary); color: var(--primary-text, #fff); }
+.geo-chips .chip.all { cursor: default; }
+.geo-actions { display: flex; gap: 8px; flex-wrap: wrap; }

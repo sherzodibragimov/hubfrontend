@@ -21,11 +21,12 @@ export interface MovieFields {
   serial_status: boolean; serial_life: string; trailer: string; media_player: string; video_links: string;
   mover_iframe: string; okru: string; lumex: string; approve: boolean; allow_main: boolean;
   published_at: string | null; author: string; category_ids: number[];
+  geo_allow?: string[];
 }
 export interface Movie extends MovieFields {
   id: number; source_dle_id: number | null; history_file: string; history_video: string; history_video_url: string; news_read: number; rating: number;
   vote_num: number; created_at: string; updated_at: string; categories: Category[]; images: Image[];
-  publications: Publication[];
+  publications: Publication[]; xfields_extra?: Record<string, unknown>;
 }
 export interface Stats {
   movies: number; serials: number; unapproved: number; no_poster: number;
