@@ -125,6 +125,9 @@ export default function MovieEditPage() {
         if (k === 'name' && f.name) continue; // nom — faqat bo‘sh bo‘lsa (Django admin bilan bir xil)
         next[k] = v;
       }
+      // Yuklangan ID formaga ham yoziladi — aks holda saqlashda eski ID qaytib keladi
+      if (r.tmdb_id) next.tmdb_id = String(r.tmdb_id);
+      if (r.media_type) next.tmdb_type = r.media_type;
       if (r.editors.short_story) next.short_story = r.editors.short_story;
       if (r.editors.full_story) next.full_story = r.editors.full_story;
       if (!f.title && r.title_suggest) next.title = r.title_suggest;
