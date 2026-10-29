@@ -13,7 +13,7 @@ export default function CleanupPage() {
         <div><h2>Tozalash</h2>
           <p className="muted small" style={{ margin: 0 }}>
             {r.window_days} kunda uchala saytda jami {r.min_views} martadan kam ko‘rilgan, {r.min_age_days} kundan eski kinolar nomzod bo‘ladi
-            (davom etayotgan serial, slider va «saqlash» qilinganlar bundan mustasno). Nomzod {r.grace_days} kundan keyin saytlar, Hub va diskdan o‘chadi.
+            (davom etayotgan serial, slider, reytingi 7.5+ va «saqlash» qilinganlar bundan mustasno). Nomzod {r.grace_days} kundan keyin saytlar, Hub va diskdan o‘chadi.
           </p></div>
       </header>
       <div className={`alert ${ready ? 'ok' : ''}`}>

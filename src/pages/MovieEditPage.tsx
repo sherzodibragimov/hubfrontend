@@ -8,6 +8,7 @@ import EpisodesTab from '../components/EpisodesTab';
 import HistoryVideo from '../components/HistoryVideo';
 import ImagesTab from '../components/ImagesTab';
 import TmdbPanel from '../components/TmdbPanel';
+import RatingsBlock from '../components/RatingsBlock';
 import GeoSelect from '../components/GeoSelect';
 import DeleteDialog from '../components/DeleteDialog';
 import SitePicker from '../components/SitePicker';
@@ -186,6 +187,7 @@ export default function MovieEditPage() {
       <div className="edit-grid">
         <div>
           <TmdbPanel key={movie?.id ?? 'new'} initialId={movie?.tmdb_id ?? ''} initialType={movie?.tmdb_type ?? ''} onApply={applyTmdb} />
+          {movie && <RatingsBlock movieId={movie.id} />}
           <div className="tabs">
             {[...GROUPS.map((g) => g.title), ...EXTRA_TABS].map((t, i) => (
               <button type="button" key={t} className={i === tab ? 'active' : ''} onClick={() => setTab(i)}>{t}</button>
