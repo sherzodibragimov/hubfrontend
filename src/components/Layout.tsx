@@ -15,6 +15,7 @@ const NAV: { to: string; label: string; icon: IconName; end?: boolean }[] = [
   { to: '/matching', label: 'TMDB moslash', icon: 'shieldCheck' },
   { to: '/posters', label: 'Posterlar', icon: 'image' },
   { to: '/slider', label: 'Slider', icon: 'tv' },
+  { to: '/videos/broken', label: 'Buzuq videolar', icon: 'alert' },
   { to: '/sources', label: 'Manbalar', icon: 'layers' },
   { to: '/autofill', label: 'Autofill', icon: 'sparkles' },
   { to: '/system', label: 'Tizim', icon: 'bell' },
