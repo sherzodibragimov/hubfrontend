@@ -18,6 +18,7 @@ const RadarPage = lazy(() => import('./pages/RadarPage'));
 const MatchingPage = lazy(() => import('./pages/MatchingPage'));
 const PostersPage = lazy(() => import('./pages/PostersPage'));
 const SliderPage = lazy(() => import('./pages/SliderPage'));
+const ShortsPage = lazy(() => import('./pages/ShortsPage'));
 const BrokenVideosPage = lazy(() => import('./pages/BrokenVideosPage'));
 const CleanupPage = lazy(() => import('./pages/CleanupPage'));
 
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="videos/broken" element={<Suspense fallback={<div className="loader" />}><BrokenVideosPage /></Suspense>} />
         <Route path="cleanup" element={<Suspense fallback={<div className="loader" />}><CleanupPage /></Suspense>} />
         <Route path="slider" element={<Suspense fallback={<div className="loader" />}><SliderPage /></Suspense>} />
+        <Route path="shorts" element={<Suspense fallback={<div className="loader" />}><ShortsPage /></Suspense>} />
         <Route path="matching" element={<Suspense fallback={<div className="loader" />}><MatchingPage /></Suspense>} />
         <Route path="radar" element={<Suspense fallback={<div className="loader" />}><RadarPage /></Suspense>} />
         <Route path="sources" element={<Suspense fallback={<div className="loader" />}><SourcesPage /></Suspense>} />
