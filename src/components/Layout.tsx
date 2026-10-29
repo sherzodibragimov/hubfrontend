@@ -17,6 +17,7 @@ const NAV: { to: string; label: string; icon: IconName; end?: boolean }[] = [
   { to: '/slider', label: 'Slider', icon: 'tv' },
   { to: '/shorts', label: 'Shorts', icon: 'play' },
   { to: '/videos/broken', label: 'Buzuq videolar', icon: 'alert' },
+  { to: '/views', label: 'Ko‘rishlar', icon: 'eye' },
   { to: '/cleanup', label: 'Tozalash', icon: 'clock' },
   { to: '/sources', label: 'Manbalar', icon: 'layers' },
   { to: '/autofill', label: 'Autofill', icon: 'sparkles' },

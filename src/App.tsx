@@ -21,6 +21,7 @@ const SliderPage = lazy(() => import('./pages/SliderPage'));
 const ShortsPage = lazy(() => import('./pages/ShortsPage'));
 const BrokenVideosPage = lazy(() => import('./pages/BrokenVideosPage'));
 const CleanupPage = lazy(() => import('./pages/CleanupPage'));
+const ViewsPage = lazy(() => import('./pages/ViewsPage'));
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   return tokenStore.get() ? children : <Navigate to="/login" replace />;
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="collections/:id" element={<Suspense fallback={<div className="loader" />}><CollectionPage /></Suspense>} />
         <Route path="posters" element={<Suspense fallback={<div className="loader" />}><PostersPage /></Suspense>} />
         <Route path="videos/broken" element={<Suspense fallback={<div className="loader" />}><BrokenVideosPage /></Suspense>} />
+        <Route path="views" element={<Suspense fallback={<div className="loader" />}><ViewsPage /></Suspense>} />
         <Route path="cleanup" element={<Suspense fallback={<div className="loader" />}><CleanupPage /></Suspense>} />
         <Route path="slider" element={<Suspense fallback={<div className="loader" />}><SliderPage /></Suspense>} />
         <Route path="shorts" element={<Suspense fallback={<div className="loader" />}><ShortsPage /></Suspense>} />
