@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useCategories, useDeleteMovie, useImagesFromUrls, useMovie, useSaveMovie, useSiteAction, useSites } from '../api/hooks';
 import type { ImageKind, Movie, MovieFields, SiteResult, TmdbResult } from '../api/types';
@@ -92,20 +92,24 @@ export default function MovieEditPage() {
   const [pendingImages, setPendingImages] = useState<Partial<Record<ImageKind, string>>>({});
   const fromUrls = useImagesFromUrls();
 
-  useEffect(() => { if (movie) setForm(toForm(movie)); }, [movie]);
+  // Saqlanmagan o‘zgarishlar bor: kino qayta yuklansa (rasm qo‘shildi, oynaga qaytildi) forma o‘chib ketmasin
+  const dirty = useRef(false);
+  useEffect(() => { dirty.current = false; }, [movieId]);
+  useEffect(() => { if (movie && !dirty.current) setForm(toForm(movie)); }, [movie]);
 
   const linked = movie?.publications.filter((p) => p.status !== 'deleted').map((p) => p.site_id) ?? [];
   const defaultSites = linked.length ? linked : sites.filter((s) => s.code === 'onetvuz' && s.is_active).map((s) => s.id);
   const selectedSites = siteIds ?? defaultSites;
   const busy = save.isPending || sync.isPending || fromUrls.isPending;
 
-  const upd = <K extends keyof MovieFields>(k: K, v: MovieFields[K]) => { setForm((f) => ({ ...f, [k]: v })); setNotice(null); };
+  const upd = <K extends keyof MovieFields>(k: K, v: MovieFields[K]) => { dirty.current = true; setForm((f) => ({ ...f, [k]: v })); setNotice(null); };
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const publish = (e.nativeEvent as SubmitEvent).submitter?.getAttribute('value') === 'publish';
     setNotice(null);
-    const m = await save.mutateAsync(form);
+    dirty.current = false;
+    const m = await save.mutateAsync(form).catch((err) => { dirty.current = true; throw err; });
     if (Object.keys(pendingImages).length) {
       // Yangi kino: TMDB rasmlari saqlangandan keyin yuklanadi (yuborishdan oldin)
       await fromUrls.mutateAsync({ id: m.id, images: pendingImages });
@@ -121,6 +125,7 @@ export default function MovieEditPage() {
   }
 
   async function applyTmdb(r: TmdbResult): Promise<string> {
+    dirty.current = true;
     setForm((f) => {
       const next = { ...f } as Record<string, unknown>;
       for (const [k, v] of Object.entries(r.fields)) {

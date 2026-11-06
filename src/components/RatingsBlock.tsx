@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../api/client';
 
@@ -16,6 +16,12 @@ export default function RatingsBlock({ movieId }: { movieId: number }) {
     refetchInterval: (q) => (q.state.data?.status === 'pending' ? 15_000 : false),
   });
   const [kp, setKp] = useState('');
+  // Worker KP ma'lumotini yozib bo‘lgach — kino formasi ham yangilansin
+  const wasPending = useRef(false);
+  useEffect(() => {
+    if (wasPending.current && data?.status !== 'pending') qc.invalidateQueries({ queryKey: ['movie', movieId] });
+    wasPending.current = data?.status === 'pending';
+  }, [data?.status, movieId, qc]);
   const save = useMutation({
     mutationFn: (id: number) => api<Ratings>(`/movies/${movieId}/ratings`, { method: 'PUT', body: JSON.stringify({ kp_id: id }) }),
     onSuccess: (d) => { qc.setQueryData(key, d); setKp(''); },
