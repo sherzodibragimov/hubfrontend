@@ -203,7 +203,6 @@ export default function SourcesPage() {
         <div className="card bulk-bar">
           <strong>{selected.size} ta tanlandi</strong>
           <button className="btn ghost sm" disabled={busy} onClick={() => run('qayta scrape', () => itemAct.mutateAsync({ action: 'rescrape', ids }))}>Qayta scrape</button>
-          <button className="btn ghost sm" disabled={busy} onClick={() => run('link bilan Movie yaratish', () => itemAct.mutateAsync({ action: 'promote_link', ids }))}>Link → Movie</button>
           <button className="btn ghost sm" disabled={busy} onClick={() => run('diskka yuklab Movie yaratish (fon)', () => itemAct.mutateAsync({ action: 'promote_disk', ids }))}>Disk → Movie (fon)</button>
           <button className="btn danger sm" disabled={busy} onClick={() => run('rad etish', () => reject.mutateAsync(ids))}>Rad etish</button>
           <span className="sep" />
